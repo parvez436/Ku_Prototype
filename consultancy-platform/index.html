@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConsultHub - Professional Consultancy Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-handshake"></i>
+                <h1>ConsultHub</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link">Home</a></li>
+                <li><a href="#" class="nav-link" onclick="showConsultants()">Consultants</a></li>
+                <li><a href="#" class="nav-link" onclick="showCategories()">Categories</a></li>
+                <li><a href="#" class="nav-link" onclick="showAbout()">About</a></li>
+                <li><a href="#" class="nav-link" onclick="showLogin()">Login</a></li>
+                <li><a href="#" class="nav-link btn-register" onclick="showRegister()">Register</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Connect with Expert Consultants</h2>
+            <p>Book consultations with professionals across legal, business, technical, and financial domains</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="showRegister()">Find a Consultant</button>
+                <button class="btn-secondary" onclick="showRegister()">Become a Consultant</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Login to ConsultHub</h2>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required placeholder="Enter your password">
+                </div>
+                <div class="form-group">
+                    <label>Login as:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="userType" value="client" checked> Client</label>
+                        <label><input type="radio" name="userType" value="consultant"> Consultant</label>
+                        <label><input type="radio" name="userType" value="admin"> Admin</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            <p class="switch-form">Don't have an account? <a href="#" onclick="showRegister()">Register here</a></p>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h2>Join ConsultHub</h2>
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="regName">Full Name</label>
+                    <input type="text" id="regName" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" required placeholder="Create a password">
+                </div>
+                <div class="form-group">
+                    <label for="regUserType">I want to join as:</label>
+                    <select id="regUserType" onchange="toggleConsultantFields()" required>
+                        <option value="">Select role</option>
+                        <option value="client">Client</option>
+                        <option value="consultant">Consultant</option>
+                    </select>
+                </div>
+                <div id="consultantFields" class="hidden">
+                    <div class="form-group">
+                        <label for="regExpertise">Area of Expertise</label>
+                        <select id="regExpertise">
+                            <option value="">Select expertise</option>
+                            <option value="legal">Legal</option>
+                            <option value="business">Business</option>
+                            <option value="technical">Technical</option>
+                            <option value="financial">Financial</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="education">Education</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="regExperience">Years of Experience</label>
+                        <input type="number" id="regExperience" min="0" placeholder="e.g., 5">
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Create Account</button>
+            </form>
+            <p class="switch-form">Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
+        </div>
+    </div>
+
+    <!-- Categories Section -->
+    <section id="categoriesSection" class="section hidden">
+        <h2 class="section-title">Consultation Categories</h2>
+        <div class="categories-grid">
+            <div class="category-card" onclick="filterByCategory('legal')">
+                <i class="fas fa-gavel"></i>
+                <h3>Legal</h3>
+                <p>Lawyers, Legal Advisors, Compliance Experts</p>
+            </div>
+            <div class="category-card" onclick="filterByCategory('business')">
+                <i class="fas fa-chart-line"></i>
+                <h3>Business</h3>
+                <p>Business Strategists, Management Consultants</p>
+            </div>
+            <div class="category-card" onclick="filterByCategory('technical')">
+                <i class="fas fa-code"></i>
+                <h3>Technical</h3>
+                <p>Software Developers, IT Consultants, Tech Experts</p>
+            </div>
+            <div class="category-card" onclick="filterByCategory('financial')">
+                <i class="fas fa-coins"></i>
+                <h3>Financial</h3>
+                <p>Financial Advisors, Accountants, Tax Consultants</p>
+            </div>
+            <div class="category-card" onclick="filterByCategory('healthcare')">
+                <i class="fas fa-heartbeat"></i>
+                <h3>Healthcare</h3>
+                <p>Medical Consultants, Healthcare Advisors</p>
+            </div>
+            <div class="category-card" onclick="filterByCategory('education')">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Education</h3>
+                <p>Career Counselors, Educational Consultants</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consultants Section -->
+    <section id="consultantsSection" class="section">
+        <h2 class="section-title">Featured Consultants</h2>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search consultants by name or expertise...">
+            <button onclick="searchConsultants()"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="consultants-grid" id="consultantsGrid">
+            <!-- Consultants will be populated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="aboutSection" class="section hidden">
+        <div class="about-content">
+            <h2>About ConsultHub</h2>
+            <p>ConsultHub is a comprehensive platform connecting clients with professional consultants across various domains. We make it easy to find, book, and consult with experts in legal, business, technical, financial, and other fields.</p>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Secure Platform</h3>
+                    <p>Secure payments and data protection</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-clock"></i>
+                    <h3>Flexible Scheduling</h3>
+                    <p>Book consultations 24/7</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-star"></i>
+                    <h3>Verified Experts</h3>
+                    <p>All consultants are vetted professionals</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>ConsultHub</h3>
+                <p>Connecting clients with expert consultants worldwide</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#" onclick="showConsultants()">Find Consultants</a></li>
+                    <li><a href="#" onclick="showCategories()">Categories</a></li>
+                    <li><a href="#" onclick="showAbout()">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>support@consulthub.com</p>
+                <p>+1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 ConsultHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
